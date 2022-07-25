@@ -17,7 +17,7 @@ Dialogs and button are customizable, developer is able to set the background and
 - Add the following dependency to `pubspec.yaml` of your project:
 ```dart
 dependencies:
-  daily_inspiration_quotes: ^0.0.1
+  daily_inspiration_quotes: ^0.0.2
 ```
 - Import `daily_inspiration_quotes.dart` to your code.
 ```dart
@@ -52,7 +52,7 @@ Whenewer you have to wait for an asynchronous action to complete and some `Loadi
   }
 ```
 ## Licence
-[MIT Licence](https://www.mit.edu/~amini/LICENSE.md)
+[MIT Licence](https://github.com/greendate/daily_inspiration_quotes/blob/main/LICENSE)
 
 ## Author
 Nikola Novarlic
