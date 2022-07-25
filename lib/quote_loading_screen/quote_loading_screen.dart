@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../daily_inspiration_quotes_platform_interface.dart';
 import '../models/Quote.dart';
@@ -13,6 +12,9 @@ import 'dart:convert';
 class QuoteLoadingScreen extends StatefulWidget {
   final Color? canvasColor;
   final Color? textColor;
+  String? fontFamily;
+  FontStyle? fontStyle;
+  FontWeight? fontWeight;
 
   Future<String?> getPlatformVersion() {
     return DailyInspirationQuotesPlatform.instance.getPlatformVersion();
@@ -20,7 +22,10 @@ class QuoteLoadingScreen extends StatefulWidget {
 
   QuoteLoadingScreen({
     this.canvasColor,
-    this.textColor, 
+    this.textColor,
+    this.fontFamily,
+    this.fontStyle,
+    this.fontWeight,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +34,9 @@ class QuoteLoadingScreen extends StatefulWidget {
     return _QuoteLoadingScreenState(
       canvasColor: canvasColor,
       textColor: textColor,
+      familyFont: fontFamily,
+      styleFont: fontStyle,
+      weightFont: fontWeight,
     );
   }
 }
@@ -37,10 +45,16 @@ class _QuoteLoadingScreenState extends State<QuoteLoadingScreen> {
   List<Quote> _quotesList = [];
   final Color? canvasColor;
   final Color? textColor;
+  final String? familyFont;
+  final FontStyle? styleFont;
+  final FontWeight? weightFont;
 
   _QuoteLoadingScreenState({
     required this.textColor,
     this.canvasColor,
+    this.familyFont,
+    this.styleFont,
+    this.weightFont,
   });
 
   @override
@@ -55,7 +69,6 @@ class _QuoteLoadingScreenState extends State<QuoteLoadingScreen> {
   Set<int> shownQuotes = new Set();
 
   Widget quoteWidget(Color? canvasColor, Color? textColor) {
-    
     var rnd = Random();
     var text = "", author = "";
 
@@ -69,28 +82,41 @@ class _QuoteLoadingScreenState extends State<QuoteLoadingScreen> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       AlertDialog(
           title: Text("${text}",
-              style: TextStyle(color: (textColor != null)? textColor: Colors.black45, fontFamily: 'Pacifico')),
+              style: TextStyle(
+                color: (textColor != null) ? textColor : Colors.black45,
+                fontFamily: (familyFont != null) ? familyFont : 'Pacifico',
+                fontWeight: weightFont,
+                fontStyle: styleFont,
+              )),
           content: Align(
               heightFactor: 1.0,
               widthFactor: 1.0,
               alignment: Alignment.topRight,
               child: Text("${author}",
-                  style: TextStyle(fontFamily: 'Pacifico', color: (textColor != null)? textColor: Colors.black45))),
-          backgroundColor: (canvasColor != null)? canvasColor: Colors.amber[200],
+                  style: TextStyle(
+                      fontFamily: (familyFont != null) ? familyFont : 'Pacifico',
+                      fontWeight: weightFont,
+                      fontStyle: styleFont,
+                      color:
+                          (textColor != null) ? textColor : Colors.black45))),
+          backgroundColor:
+              (canvasColor != null) ? canvasColor : Colors.amber[200],
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.navigate_next),
-              color: (textColor != null)? textColor: Colors.black45,
+              color: (textColor != null) ? textColor : Colors.black45,
               tooltip: 'Next Quote',
               onPressed: () {
                 setState(() {
                   var rnd = Random();
                   int index = rnd.nextInt(_quotesList.length - 1);
-                  
-                  while(shownQuotes.contains(index)) index = rnd.nextInt(_quotesList.length - 1);
+
+                  while (shownQuotes.contains(index))
+                    index = rnd.nextInt(_quotesList.length - 1);
+                    
                   // Already displayed indices would be stored in set in order to prevent repetition of same quotes
                   shownQuotes.add(index);
-                  
+
                   text = _quotesList[index].text!;
                   author = _quotesList[index].author!;
                 });

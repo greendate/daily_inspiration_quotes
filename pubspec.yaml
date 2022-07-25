@@ -1,7 +1,7 @@
 name: daily_inspiration_quotes
 description: Integrate inspiration quotes in your application in the form of Dialog or Progress Indicator
 version: 0.0.1
-homepage:
+homepage: https://github.com/greendate/daily_inspiration_quotes
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
@@ -13,7 +13,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  http:
+  http: ^0.13.4
   
 dev_dependencies:
   flutter_test:

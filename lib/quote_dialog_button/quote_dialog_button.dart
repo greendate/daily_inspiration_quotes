@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../daily_inspiration_quotes_platform_interface.dart';
 import '../models/Quote.dart';
@@ -19,12 +18,18 @@ class QuoteDialogButton extends StatefulWidget {
   Color? textColor;
   IconData? buttonIcon;
   Color? buttonColor;
+  String? fontFamily;
+  FontStyle? fontStyle;
+  FontWeight? fontWeight;
 
-  QuoteDialogButton( {
+  QuoteDialogButton({
     this.canvasColor,
     this.textColor,
     this.buttonIcon,
-    this.buttonColor, 
+    this.buttonColor,
+    this.fontFamily,
+    this.fontStyle,
+    this.fontWeight,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +40,9 @@ class QuoteDialogButton extends StatefulWidget {
       textColor: textColor,
       buttonIcon: buttonIcon,
       buttonColor: buttonColor,
+      familyFont: fontFamily,
+      styleFont: fontStyle,
+      weightFont: fontWeight,
     );
   }
 }
@@ -45,12 +53,18 @@ class _QuoteDialogButtonState extends State<QuoteDialogButton> {
   final Color? textColor;
   final IconData? buttonIcon;
   final Color? buttonColor;
+  final String? familyFont;
+  final FontStyle? styleFont;
+  final FontWeight? weightFont;
 
   _QuoteDialogButtonState({
     required this.textColor,
     this.canvasColor,
     this.buttonIcon,
     this.buttonColor,
+    this.familyFont,
+    this.styleFont,
+    this.weightFont,
   });
 
   @override
@@ -68,18 +82,20 @@ class _QuoteDialogButtonState extends State<QuoteDialogButton> {
     return TextButton(
         onPressed: () => getQuotes(context),
         child: Icon(
-          (buttonIcon != null)? buttonIcon: Icons.lightbulb_circle_rounded,
-          color: (buttonColor != null)? buttonColor: Colors.amber,
+          (buttonIcon != null) ? buttonIcon : Icons.lightbulb_circle_rounded,
+          color: (buttonColor != null) ? buttonColor : Colors.amber,
           size: 50,
         ));
   }
+
   Set<int> shownQuotes = new Set();
 
   Future<Future<String?>> getQuotes(BuildContext context) async {
     // Taking random index of the quotesList
     var rnd = Random();
     int index = rnd.nextInt(_quotesList.length - 1);
-    while(shownQuotes.contains(index)) index = rnd.nextInt(_quotesList.length - 1);
+    while (shownQuotes.contains(index))
+      index = rnd.nextInt(_quotesList.length - 1);
 
     // Already displayed indices would be stored in set in order to prevent repetition of same quotes
     shownQuotes.add(index);
@@ -88,20 +104,32 @@ class _QuoteDialogButtonState extends State<QuoteDialogButton> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text("${_quotesList[index].text}",
-            style: TextStyle(color: (textColor != null)? textColor: Colors.black45, fontFamily: 'Pacifico')),
+            style: TextStyle(
+                color: (textColor != null) ? textColor : Colors.black45,
+                fontWeight: weightFont,
+                fontFamily: (familyFont != null) ? familyFont : 'Pacifico',
+                fontStyle: styleFont)),
         content: Align(
             heightFactor: 1.0,
             widthFactor: 1.0,
             alignment: Alignment.topRight,
             child: Text("${_quotesList[index].author}",
-                style: TextStyle(fontFamily: 'Pacifico', color: (textColor != null)? textColor: Colors.black45))),
-        backgroundColor: (canvasColor != null)? canvasColor: Colors.amber[200],
+                style: TextStyle(
+                    fontFamily: (familyFont != null) ? familyFont : 'Pacifico',
+                    fontWeight: weightFont,
+                    fontStyle: styleFont,
+                    color: (textColor != null) ? textColor : Colors.black45))),
+        backgroundColor:
+            (canvasColor != null) ? canvasColor : Colors.amber[200],
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: Text('Close',
                 style: TextStyle(
-                  color: (textColor != null)? textColor: Colors.black45,
+                  color: (textColor != null) ? textColor : Colors.black45,
+                  fontStyle: styleFont,
+                  fontFamily: (familyFont != null) ? familyFont : 'Pacifico',
+                  fontWeight: weightFont,
                 )),
           ),
         ],

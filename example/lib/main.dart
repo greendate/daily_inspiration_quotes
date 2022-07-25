@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:daily_inspiration_quotes/daily_inspiration_quotes.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
         textColor: Colors.black45,
         buttonIcon: Icons.lightbulb_circle_rounded,
         buttonColor: Colors.amber,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.normal,
       ),
       body: buildBloc(),
     );
@@ -65,8 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // Instead of just showing progress indicator in the loading state
         // We are displaying QuoteLoadingScreen and giving it canvas and text colors as and input
         return QuoteLoadingScreen(
-          canvasColor: Colors.amber.shade200, 
-          textColor: Colors.black45
+            canvasColor: Colors.amber.shade200, 
+            textColor: Colors.black45,
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.normal,
         );
       }
       if (state is SuccessUserList) {
